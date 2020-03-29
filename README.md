@@ -1,1 +1,1 @@
-Dependencies:  flask, python
+Dependencies:   flask, python, virtualenv

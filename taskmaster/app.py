@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -20,11 +20,42 @@ def __repr__(self):
 
 #create index route
 #	avoids 404s when we access url
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-	#no path specification needed, flask knows to look in templates folder
-	return(render_template('index.html'))
-	#note: must manually refresh page upon index.html update
+	#if we submit our form: do this
+	if request.method == 'POST':
+		#set task content to the contents of the submitted form
+		task_content = request.form['content']
+		new_task = Todo(content=task_content)
+
+		try:
+			db.session.add(new_task)
+			db.session.commit()
+			return redirect('/')
+		except:
+			return "There was an issue adding the task"
+
+	else:
+		#tasks = all db entries sorted by date created
+		tasks = Todo.query.order_by(Todo.date_created).all()
+		return render_template('index.html', tasks=tasks)
+		#try using 'app.js' when you try with reacy
+		#no path specification needed, flask knows to look in templates folder
+		#note: must manually refresh page upon index.html update
+	# return(render_template('index.html'))
+
+@app.route('/delete/<int: id>')
+def delete(id):
+	task_to_delete = Todo.query.get_or_4040(id)
+
+	try:
+		db.session.delete(task_to_delete)
+		db.session.commit()
+		return redirect('/')
+
+	except:
+		return "Error! problem deleting"
+
 
 if __name__ == '__main__':
 	app.run(debug=True)

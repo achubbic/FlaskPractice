@@ -44,9 +44,9 @@ def index():
 		#note: must manually refresh page upon index.html update
 	# return(render_template('index.html'))
 
-@app.route('/delete/<int: id>')
+@app.route('/delete/<int:id>')
 def delete(id):
-	task_to_delete = Todo.query.get_or_4040(id)
+	task_to_delete = Todo.query.get_or_404(id)
 
 	try:
 		db.session.delete(task_to_delete)

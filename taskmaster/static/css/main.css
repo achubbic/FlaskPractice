@@ -5,16 +5,16 @@ body, html {
 
 .content {
     margin: 0 auto;
-    width: 400px;
+    width: 600px;
 }
 
 table, td, th {
-    border: 1px solid #aaa;
+    border: 3px solid #aaa;
 }
 
 table {
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
 }
 
 th {

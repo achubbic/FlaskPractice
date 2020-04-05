@@ -57,7 +57,7 @@ def delete(id):
 	except:
 		return "Error! problem deleting"
 
-@app.route('/update/<int:id>')
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
 	task = Todo.query.get_or_404(id)
 
@@ -69,8 +69,10 @@ def update(id):
 			return redirect('/')
 		except:
 			return "Error"
-
+	else:
+		# return "Goodbye!"
 		return render_template('update.html', task=task)
+	
 
 if __name__ == '__main__':
 	app.run(debug=True)
